@@ -5,11 +5,26 @@ const express = require('express');
 const app = express();
 
 // Middleware
+const exphbs  = require('express-handlebars'); //stand alone library not node.js module
+
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
 
 // Routes
 app.get('/', (req, res) => {
-    res.send('Hello Squirrel');
-  });
+    // sets url of gif
+    const gifUrl = 'https://media1.tenor.com/images/561c988433b8d71d378c9ccb4b719b6c/tenor.gif?itemid=10058245'
+    // renders gif view
+    res.render('hello-gif', { gifUrl });
+});
+
+
+app.get('/greetings/:name', (req, res) => {
+    // grab the name from the path provided
+    const name = req.params.name;
+    // render the greetings view, passing along the name
+    res.render('greetings', { name });
+});
 
 // Start Server
 
